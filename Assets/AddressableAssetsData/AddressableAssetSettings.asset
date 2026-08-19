@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 3a973661a2c70124ab74a07b02222aa1
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 3bf4428482262015f997a8085fa6cb3b
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_CatalogRequestsTimeout: 0
@@ -72,8 +72,7 @@ MonoBehaviour:
       m_ProfileName: Default
       m_Values:
       - m_Id: 0d0cf6c4aa46a1e47a848d9c0b284f1e
-        m_Value: 'https://treasurehunter-addressables.s3.us-east-1.amazonaws.com/content/
-          [BuildTarget]'
+        m_Value: 'https://treasurehunter-addressables.s3.us-east-1.amazonaws.com/content/[BuildTarget]'
       - m_Id: 2a940579fd1568f43b7111e3b32c9ade
         m_Value: 'ServerData/[BuildTarget]'
       - m_Id: 62315c6e9dae25648b62b48140a6b1f3
