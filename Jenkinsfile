@@ -19,7 +19,7 @@ pipeline {
         ADDRESSABLES_OUTPUT_ANDROID = "${WORKSPACE}\\ServerData\\Android"
         
         // bin 파일이 생성/요구되는 유니티 내부 경로 (플랫폼별)
-        STATE_FILE_WINDOWS = "${WORKSPACE}\\Assets\\AddressableAssetsData\\Windows64\\addressables_content_state.bin"
+        STATE_FILE_WINDOWS = "${WORKSPACE}\\Assets\\AddressableAssetsData\\Windows\\addressables_content_state.bin"
         STATE_FILE_ANDROID = "${WORKSPACE}\\Assets\\AddressableAssetsData\\Android\\addressables_content_state.bin"
     }
 
