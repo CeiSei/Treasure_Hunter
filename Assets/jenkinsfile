@@ -94,7 +94,6 @@ pipeline {
             }
             steps {
                 script {
-                    // 안드로이드 역시 버전별 폴더로 S3 경로를 동적으로 구성합니다.
                     def s3StatePathAndroid = "${S3_STATE_BUCKET}/${params.APP_VERSION}/Android/addressables_content_state.bin"
 
                     if (params.BUILD_TYPE == 'AndroidAddressablesOnly') {
@@ -149,11 +148,13 @@ pipeline {
         stage('Upload to S3') {
             steps {
                 script {
+                    // Windows 빌드가 포함된 파라미터(3가지)일 때 업로드
                     if (params.BUILD_TYPE == 'WindowsAddressblesOnly' || params.BUILD_TYPE == 'WindowsFullBuild' || params.BUILD_TYPE == 'FullBuild') {
                         echo "S3 버킷으로 Windows Addressables 번들 업로드를 시작합니다..."
                         bat "aws s3 sync \"${ADDRESSABLES_OUTPUT_WINDOWS}\" \"${S3_BUCKET_WINDOWS}\" --exclude \"*\" --include \"*.hash\" --include \"*.bin\" --include \"*.json\" --include \"*.bundle\""
                     }
                     
+                    // Android 빌드가 포함된 파라미터(3가지)일 때 업로드
                     if (params.BUILD_TYPE == 'AndroidAddressablesOnly' || params.BUILD_TYPE == 'AndroidFullBuild' || params.BUILD_TYPE == 'FullBuild') {
                         echo "S3 버킷으로 Android Addressables 번들 업로드를 시작합니다..."
                         bat "aws s3 sync \"${ADDRESSABLES_OUTPUT_ANDROID}\" \"${S3_BUCKET_ANDROID}\" --exclude \"*\" --include \"*.hash\" --include \"*.bin\" --include \"*.json\" --include \"*.bundle\""
@@ -170,6 +171,9 @@ pipeline {
         }
         success {
             echo "🎉 모든 빌드 스테이지가 성공적으로 완료되었습니다!"
+            
+            // 클라이언트 빌드(exe, apk) 결과물을 Jenkins 대시보드에서 다운로드할 수 있도록 보관합니다.
+            archiveArtifacts artifacts: 'Builds/**/*', allowEmptyArchive: true
         }
         failure {
             echo "❌ 빌드 중 오류가 발생했습니다. build.log를 확인하세요."
