@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: -1864665945345205}
   - component: {fileID: 6234038721938315731}
   - component: {fileID: 339327851119095592}
+  - component: {fileID: 7753439590477223902}
   m_Layer: 0
   m_Name: Rai
   m_TagString: Player
@@ -774,6 +775,19 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   nameTag: {fileID: 3554832578047658332}
+--- !u!114 &7753439590477223902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162104454226353828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69720331d74005748aff229dcd6d3861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterSwapper
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &2263787364101248519
 GameObject:
   m_ObjectHideFlags: 0
