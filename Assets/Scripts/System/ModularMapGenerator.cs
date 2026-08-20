@@ -165,9 +165,6 @@ public class ModularMapGenerator : NetworkBehaviour
 
         Debug.Log($"동기화 맵 조립 완료 (크기: {currentMapSize}x{currentMapSize}, 시드: {seed})");
 
-        IsMapReady = true;
-        OnMapGenerated?.Invoke();
-
         WaitUntilLoad().Forget();
 
         // 맵 생성이 완료되면 플레이어의 위치를 추적하여 청크를 켜고 끄는 비동기 루프 시작
