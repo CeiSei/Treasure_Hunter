@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 3a973661a2c70124ab74a07b02222aa1
   m_SerializeEntries:
+  - m_GUID: 034ac7dfd1ff26e428178f24e305bf56
+    m_Address: Icon_MoveSpeed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 122c71e6a2b1cee42b0c86311a3d805f
     m_Address: Assets/RedRai.prefab
     m_ReadOnly: 0

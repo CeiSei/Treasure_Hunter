@@ -5,6 +5,7 @@ using Unity.Netcode;
 using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System; // Action 사용을 위해 추가
 
 public class PlayerControl : NetworkBehaviour
 {
@@ -38,6 +39,29 @@ public class PlayerControl : NetworkBehaviour
 
     [Header("Camera Settings")]
     [SerializeField] private Transform cameraTarget;
+
+    // --- 객체 지향 디버프 관리 리스트 및 이벤트 ---
+    private List<StatusEffect> activeEffects = new List<StatusEffect>();
+    
+    // UI 스크립트에서 이 이벤트를 구독(Subscribe)하여 아이콘을 생성/제거합니다.
+    public event Action<StatusEffect> OnStatusEffectAdded;
+    public event Action<StatusEffect> OnStatusEffectRemoved;
+    
+    public float CurrentMoveSpeed
+    {
+        get
+        {
+            float finalSpeed = moveSpeed;
+            foreach (StatusEffect effect in activeEffects)
+            {
+                if (effect.TargetStat == StatType.MoveSpeed)
+                {
+                    finalSpeed *= effect.ModifierValue;
+                }
+            }
+            return finalSpeed;
+        }
+    }
 
     CancellationTokenSource CTS;
     Rigidbody rb;
@@ -105,7 +129,6 @@ public class PlayerControl : NetworkBehaviour
     {
         List<Transform> spawnList = new List<Transform>();
 
-        // 비활성화된 청크 내부의 SpawnPoint까지 모두 찾기
         GameObject mapHolder = GameObject.Find("ModularMap");
         if (mapHolder != null)
         {
@@ -210,7 +233,7 @@ public class PlayerControl : NetworkBehaviour
             MoveDir = Camera.main.transform.forward * InputDir.y + Camera.main.transform.right * InputDir.x;
             MoveDir.y = 0;
             
-            transform.position += MoveDir.normalized * moveSpeed * Time.deltaTime;
+            transform.position += MoveDir.normalized * CurrentMoveSpeed * Time.deltaTime;
 
             if(InputDir != Vector2.zero)
             {
@@ -313,11 +336,27 @@ public class PlayerControl : NetworkBehaviour
         }
     }
 
-    public async UniTaskVoid SetPlayerSpeedDebuff(float slow, float time)
+    [ClientRpc]
+    public void ApplyStatusEffectClientRpc(StatType statType, float modifierValue, float duration, ClientRpcParams rpcParams = default)
     {
-        moveSpeed = moveSpeed * slow;
-        await UniTask.WaitForSeconds(time);
-        moveSpeed = moveSpeed / slow;
+        ApplyEffectRoutine(statType, modifierValue, duration).Forget();
+    }
+
+    private async UniTaskVoid ApplyEffectRoutine(StatType statType, float modifierValue, float duration)
+    {
+        StatusEffect newEffect = new StatusEffect(statType, modifierValue, duration);
+        
+        activeEffects.Add(newEffect);
+        OnStatusEffectAdded?.Invoke(newEffect); // 추가됨을 알림
+        
+        await UniTask.WaitForSeconds(duration);
+        
+        // 간혹 캐릭터 사망 등으로 이미 초기화되었을 수 있으므로 안전 검사
+        if (activeEffects.Contains(newEffect))
+        {
+            activeEffects.Remove(newEffect);
+            OnStatusEffectRemoved?.Invoke(newEffect); // 해제됨을 알림
+        }
     } 
 
     void OnDisable()
