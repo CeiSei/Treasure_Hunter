@@ -46,6 +46,9 @@ public class GameOverUI : MonoBehaviour
     {
         resultPanel.SetActive(true);
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         int myTeam = 0;
         if (NetworkManager.Singleton.LocalClient.PlayerObject != null)
         {

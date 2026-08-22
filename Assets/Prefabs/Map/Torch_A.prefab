@@ -40,7 +40,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8084034813923124662}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.6902812, b: 0.3160377, a: 1}
@@ -206,12 +206,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561048265046567462}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 557a7c4c163f35a49bc079cdb9117b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightDistanceCuller
-  cullDistance: 80
+  cullDistance: 30
+  fadeDuration: 1
 --- !u!4 &901545384655155356 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bcc66fb6042b14d46bc9d27fa37aae9b, type: 3}
